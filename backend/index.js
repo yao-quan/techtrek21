@@ -106,7 +106,7 @@ app.get("/expenses", (req, res) => {
 app.get("/expenses-project", (req, res) => {
   const dbExpense = req.body;
 
-  Expense.find({ project_id: dbExpense.project_id })
+  Expense.find({ project_id: dbExpense.proj_id })
     .then((expense) => {
       if (!expense) {
         const err = new Error("No expenses in DB");
@@ -193,7 +193,7 @@ app.post("/add-expense", (req, res) => {
         Expense.create(expenseInfo, (err, data) => {
           if (err) {
             console.log("failed to added");
-            console.log(err)
+            console.log(err);
             return res.status(500).json({ added: false });
           } else {
             console.log("expense added");
