@@ -1,8 +1,4 @@
-import { useState } from 'react'
-
 const Login = ({ username, password }) => {
-    const [ username, setUserName ] = useState()
-    const [ password, setPassword ] = useState()
 
     return (
         <div className="login-wrapper">
