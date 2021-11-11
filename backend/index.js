@@ -81,6 +81,20 @@ app.get("/projects", (req, res) => {
   });
 });
 
+// GET All Expenses
+app.get("/expenses", (req, res) => {
+  Expense.find({}, (err, data) => {
+    if (err) {
+      return res.status(500).send(err.message);
+    } else {
+      if (data.length > 0) {
+        return res.status(200).json({ expenses: data });
+      } else {
+        return res.status(200).send("No Expenses");
+      }
+    }
+  });
+});
 // POST Update Expense-budget
 app.post("/update-expense-budget", (req, res) => {
   const { id, amount } = req.body;
