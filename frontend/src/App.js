@@ -8,7 +8,9 @@ import Login from "./components/login/Login"
 import Dashboard from "./components/dashboard/Dashboard" 
 
 function App() {
-  const [state, setState] = useState({});
+  const [users, setUsers] = useState({});
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
     setState({
