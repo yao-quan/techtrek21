@@ -10,6 +10,8 @@ import Dashboard from "./components/dashboard/Dashboard";
 
 function App() {
   const [users, setUsers] = useState({});
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   // useEffect(() => {
   //   const axiosUsers = async () => {
@@ -24,7 +26,12 @@ function App() {
     //   <Navbar users = {users}/>
     // </div>
     <Routes>
-      <Route path="/" element={<Login />}></Route>
+      <Route path="/" element={
+        <Login
+          setUserName = {setUsername}
+          setPassword = {setPassword}
+        />
+      }></Route>
       <Route path="/dashboard" element={<Dashboard />}></Route>
       <Route path="/dashboard/expenses" element={<Expense />}></Route>
     </Routes>

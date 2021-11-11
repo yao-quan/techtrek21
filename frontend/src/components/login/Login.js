@@ -5,7 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-function Login({ username, password }) {
+function Login({ setUsername, setPassword }) {
   return (
     <div className="login-wrapper">
       <Card sx={{ minWidth: 275 }}>
@@ -13,11 +13,11 @@ function Login({ username, password }) {
           <form>
               <label>
                   <p>Username</p>
-                      <input type="text" onChange={e => username = (e.target.value)}/>
+                      <input type="text" onChange={e => setUsername = (e.target.value)}/>
                   </label>
               <label>
                   <p>Password</p>
-                  <input type="password" onChange={e => password = (e.target.value)}/>
+                  <input type="password" onChange={e => setPassword = (e.target.value)}/>
               </label>
               <div>
                   <button type="submit">Submit</button>
