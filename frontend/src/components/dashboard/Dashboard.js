@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import "./style.css";
 import "antd/dist/antd.css";
 import { Form, Radio, Modal, Input, Button, Checkbox } from "antd";
+import axios from "axios";
+import { isClassExpression } from "typescript";
 
 function Dashboard() {
   const [visible, setVisible] = useState(false);
@@ -13,19 +15,29 @@ function Dashboard() {
   const state = {
     projectItems: [
       {
-        id: 0,
-        title: "Project 1",
-        description: "This is a Project",
-        budget: "2,000",
+        id: 1,
+        user_id: 4,
+        name: "RTF",
+        description: "Realtime Face Recognition",
+        budget: "12000",
       },
       {
-        id: 1,
-        title: "Project 2",
-        description: "This is a Project",
-        budget: "10,000",
+        id: 2,
+        user_id: 1,
+        name: "Project 1",
+        description: "Smart Watch Tracker",
+        budget: "80000",
       },
     ],
   };
+
+  function projectMount() {
+    axios.get(`http://localhost:8001/projects`).then((res) => {
+      const projects = res.data;
+      console.log(projects);
+      return projects;
+    });
+  }
 
   const handleOk = () => {
     /* this.setState({ loading: true });
@@ -45,13 +57,19 @@ function Dashboard() {
     console.log("Failed:", errorInfo);
   };
 
+  // const projects = projectMount();
+  // console.log(projects);
   return (
     <React.Fragment>
+      {console.log(state)}
       <div>
         <h1 className={classes.mainPageHeading}>Project Budget Management</h1>
         <div className={classes.dashboard}>
           <div className={classes.dashboardHead}>
-            <div className={classes.totalProjects}>Managed Projects: 12</div>
+            <div className={classes.totalProjects}>
+              Managed Projects:
+              {}
+            </div>
             <div className={classes.totalBudget}>Total Budget:1,200,000</div>
           </div>
 
@@ -59,10 +77,15 @@ function Dashboard() {
             <div className={classes.projectContainer}>
               <div className={classes.projects}>
                 Projects
-                <Button type="primary" onClick={showModal}>
+                <Button
+                  className={classes.buttonStyle}
+                  type="primary"
+                  onClick={showModal}
+                >
                   Add
                 </Button>
               </div>
+              {/* {projects2.map((projectList) => ( */}
               {state.projectItems.map((projectList) => (
                 <>
                   <div className={classes.listGroup}>
@@ -74,7 +97,7 @@ function Dashboard() {
                       }
                     >
                       <div className={classes.projectTitle}>
-                        {projectList.title}
+                        {projectList.name}
                         <div className={classes.projectDescription}>
                           {projectList.description}
                         </div>
@@ -104,6 +127,7 @@ function Dashboard() {
                 htmlType="submit"
                 key="submit"
                 type="primary"
+                className={classes.buttonStyle}
                 //loading={loading}
                 onClick={handleOk}
               >
