@@ -1,9 +1,9 @@
 function Login({ username, password }) {
   return (
     <div className="login-wrapper">
-    <h1>Landing Page - Login</h1>
-    <form>
-        <label>
+      <h1>Landing Page - Login</h1>
+      <form>
+        {/* <label>
             <p>Username</p>
                 <input type="text" onChange={e => setUserName(e.target.value)}/>
             </label>
@@ -13,10 +13,10 @@ function Login({ username, password }) {
         </label>
         <div>
             <button type="submit">Submit</button>
-        </div>
-    </form>
+        </div> */}
+      </form>
     </div>
-  )
+  );
   //Example: command to use to re-route on button click
   //window.location.replace("/Login");
 }

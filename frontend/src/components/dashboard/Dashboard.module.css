@@ -1,0 +1,77 @@
+.projectContainer {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  width: 1000px;
+  justify-content: center !important;
+  background-color: lightgray;
+  height: 1000px;
+}
+
+.projectTitle {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 22px;
+  line-height: 20px;
+  margin-bottom: 2vh;
+}
+
+.listGroupItem2 {
+  /* background-image: url(../Images/label_flipping_icon.png); */
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  background-size: 40px 40px;
+  padding-top: 1.8vh !important;
+  height: 7vh !important;
+  padding-left: 60px !important;
+  border-radius: 16px !important;
+  vertical-align: center;
+  background-color: white;
+}
+
+.listGroupItem2:hover {
+  /* background-color:#EFF7FF; */
+  background-color: rgb(250, 244, 227) !important;
+  /* color:lightskyblue; */
+  /* color:rgb(240, 209, 125) !important;
+    font-weight: 400 !important; */
+  transition: 300ms;
+  transform: translateY(-4px);
+  color: rgb(240, 209, 125) !important;
+}
+
+.projectTitle {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 22px;
+  line-height: 20px;
+  margin-bottom: 2vh;
+}
+.projectDescription {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 14px !important;
+  padding-top: 2px !important;
+}
+
+.projectBudget {
+  float: right;
+  margin-right: 20px;
+  margin-top: 0.5vh;
+  font-weight: bold;
+}
+
+.dashboardHead {
+  width: 900px;
+  height: 200px;
+  padding-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  margin: 20px auto 0px;
+  padding-top: 50px;
+}
