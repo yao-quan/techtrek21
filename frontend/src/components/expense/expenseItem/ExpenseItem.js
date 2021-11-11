@@ -5,11 +5,11 @@ const ExpenseItem = (props) => {
 
 	const handleDeleteExpense = () => {
 		// axios to delete and update props expenses list to remove the one with the props.id.
-		axios.post('localhoost:8001/delete-expense', {
+		axios.post('localhoost:8001/remove-expense', {
 			id: props.id
 		}).then(response => {
 			console.log(response)
-			
+			props.listUpdate(props.id)
 		})
 	};
 
@@ -29,7 +29,12 @@ const ExpenseItem = (props) => {
 
 	return (
 		<li class='list-group-item d-flex justify-content-between align-items-center'>
-			{props.name}
+			<div>
+				{props.name}
+			</div>
+			<div>
+				{props.description}
+			</div>			
 			<div>
 				<span style={{marginRight: '30px'}} >${props.amount}</span>
 				<TiEdit style={{cursor: 'pointer'}} size='1.5em' onClick={handleEditExpense} />

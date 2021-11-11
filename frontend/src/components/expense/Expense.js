@@ -9,7 +9,6 @@ import Button from "@material-ui/core/Button";
 
 function Expense(props) {
     const [expenses, setExpenses] = useState([])
-    const [currentId, setCurrentId] = useState(0)
     const [showAdd, setShowAdd] = useState(false)
 
     useEffect(() => {
@@ -27,8 +26,8 @@ function Expense(props) {
                 "updated_by": "Jacky"
             }
         ])
-        setCurrentId(0)
         setShowAdd(false)
+        console.log(props.project)
       }, [])
     
 
@@ -60,7 +59,7 @@ function Expense(props) {
                     <h3 className='mt-3'>Add Expense</h3>
                     <div className='row mt-3'>
                         <div className='col-sm'>
-                            <AddExpenseForm currentId={currentId} project={props.project}/>
+                            <AddExpenseForm expenses={expenses} project={props.project}/>
                         </div>
                     </div>
                 </div>
