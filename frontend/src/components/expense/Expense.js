@@ -4,20 +4,13 @@ import Budget from './budget/Budget'
 import ExpenseTotal from './total/ExpenseTotal';
 import ExpenseList from './expenseList/ExpenseList';
 import AddExpenseForm from './forms/AddExpense';
-import EditExpenseForm from './forms/EditExpense';
 import RemainingBudget from './budget/remaining/RemainingBudget';
 import Button from "@material-ui/core/Button";
 
 function Expense(props) {
     const [expenses, setExpenses] = useState([])
-    const [totalExpense, setTotalExpense] = useState(0)
     const [currentId, setCurrentId] = useState(0)
     const [showAdd, setShowAdd] = useState(false)
-    const [showEdit, setShowEdit] = useState(false)
-
-    const editExpense = () => {
-        setShowEdit(!showEdit)
-    }
 
     useEffect(() => {
         setExpenses([
@@ -34,15 +27,9 @@ function Expense(props) {
                 "updated_by": "Jacky"
             }
         ])
-        setTotalExpense(
-            expenses.reduce((total, expense) => {
-                return (total += expense.amount);
-            }, 0)
-        )
         setCurrentId(0)
         setShowAdd(false)
-        setShowEdit(false)
-      }, [expenses])
+      }, [])
     
 
     return (
@@ -53,10 +40,10 @@ function Expense(props) {
                     <Budget allocated={props.project.budget}/>
                 </div>
                 <div className='col-sm'>
-                    <RemainingBudget remaining={props.project.budget - totalExpense} budget={props.project.budget}/>
+                    <RemainingBudget expenses={expenses} budget={props.project.budget}/>
                 </div>
                 <div className='col-sm'>
-                    <ExpenseTotal total={totalExpense}/>
+                    <ExpenseTotal expenses={expenses}/>
                 </div>
             </div>
             <div style={{display: 'flex', flexDirection: 'row'}}>
@@ -65,7 +52,7 @@ function Expense(props) {
             </div>
             <div className='row '>
                 <div className='col-sm'>
-                    <ExpenseList expenses={expenses} edit={editExpense}/>
+                    <ExpenseList expenses={expenses} setShowAdd={setShowAdd}/>
                 </div>
             </div>
             { showAdd ? 
@@ -74,16 +61,6 @@ function Expense(props) {
                     <div className='row mt-3'>
                         <div className='col-sm'>
                             <AddExpenseForm currentId={currentId} project={props.project}/>
-                        </div>
-                    </div>
-                </div>
-            : null }
-            { showEdit ? 
-                <div>
-                    <h3 className='mt-3'>Edit Expense</h3>
-                    <div className='row mt-3'>
-                        <div className='col-sm'>
-                            <EditExpenseForm currentId={currentId} project={props.project}/>
                         </div>
                     </div>
                 </div>

@@ -1,10 +1,32 @@
 import { useState, useEffect } from 'react';
 import ExpenseItem from '../expenseItem/ExpenseItem';
-
+import EditExpenseForm from '../forms/EditExpense';
 
 function ExpenseList(props) {
 
-	const [filteredExpenses, setfilteredExpenses] = useState(props.expenses || []);
+	const [filteredExpenses, setfilteredExpenses] = useState([]);
+    const [showEdit, setShowEdit] = useState(false)
+	const form = {}
+
+	const setForm = (expense) => {
+		form.name = expense.name;
+		form.amount = expense.amount;
+		form.description = expense.description;
+		form.id = expense.id;
+		form.project_id = expense.project_id;
+		form.category_id = expense.category_id;
+		form.updated_by = expense.updated_by;
+		form.updated_at = expense.updated_at
+	}
+	
+    const showEditExpense = () => {
+        if (showEdit) setShowEdit(false)
+        else { 
+            setShowEdit(true)
+            props.setShowAdd(false)
+        }
+        return 
+    }
 
 	useEffect(() => {
 		setfilteredExpenses(props.expenses);
@@ -16,6 +38,12 @@ function ExpenseList(props) {
 		);
 		setfilteredExpenses(searchResults);
 	};
+	const listUpdate = (expense) => {
+		const newList = filteredExpenses.filter((filteredExpense) =>
+			filteredExpense.id === expense.id
+		);
+		setfilteredExpenses(newList)
+	}
 
 	return (
 		<>
@@ -29,12 +57,27 @@ function ExpenseList(props) {
 				{filteredExpenses.map((expense) => (
 					<ExpenseItem
 						id={expense.id}
+						project_id={expense.project_id}
+						category_id={expense.category_id}
 						name={expense.name}
-						cost={expense.amount}
-						edit={props.edit}
+						amount={expense.amount}
+						description={expense.description}
+						showEdit={showEditExpense}
+						setForm={setForm}
+						listUpdate={listUpdate}
 					/>
 				))}
 			</ul>
+			{ showEdit ? 
+                <div>
+                    <h3 className='mt-3'>Edit Expense</h3>
+                    <div className='row mt-3'>
+                        <div className='col-sm'>
+                            <EditExpenseForm form={form}/>
+                        </div>
+                    </div>
+                </div>
+            : null }
 		</>
 	);
 };

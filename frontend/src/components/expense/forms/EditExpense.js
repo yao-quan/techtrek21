@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function AddExpenseForm(props) {
 
@@ -6,29 +7,37 @@ function AddExpenseForm(props) {
 	const [amount, setAmount] = useState('');
 	const [description, setDescription] = useState('');
 
+	useEffect(() => {
+		setName(props.form.name);
+		setAmount(props.form.amount);
+		setDescription(props.form.description);
+	}, [props.form.name, props.form.amount, props.form.description])
 
 	const onSubmit = (event) => {
 		event.preventDefault();
-		const expense = {
+
+		// axios to post expense to backend
+		axios.post('localhost:8001/update-expense-budget', {
 			id: props.currentId,
 			name: name,
 			description: description,
 			amount: parseInt(amount),
-			project_id: props.project.project_id,
-			category_id: props.project.category_id,
-			created_at: new Date(),
-			created_by: '', //this one need to get from somewhere.
-		};
+			project_id: props.form.project_id,
+			category_id: props.form.category_id,
+			updated_by: props.form.updated_by,
+			updated_at: new Date(),
+		}).then(response => {
+			console.log(response)
+			// here i need to update the list
+		})
 
-		//axios to post expense to backend
-
-		setName('');
-		setAmount('');
-		setDescription('');
+		// setName('');
+		// setAmount('');
+		// setDescription('');
 	};
 
 	return (
-		<form onSubmit={onSubmit}>
+		<form onSubmit={onSubmit} key={props.form}>
 			<div class='row'>
 				<div class='col-sm col-lg-4'>
 					<label for='name'>Name</label>
