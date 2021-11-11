@@ -48,12 +48,12 @@ function Login() {
         style={{ minHeight: '100vh' }}
       >
       <Grid item xs={3}>
-      <Card sx={{ width: 'auto'} }>
+      <Card >
         <CardContent>
             <img  src={mainLogo} className="photo" alt="fireSpot" 
             style={{
-              height: "90px",
-              width: "90px"}}/>
+              height: "15vh",
+              width: "19vh"}}/>
           
           <form onSubmit = {handleSubmit}>
               <label>
