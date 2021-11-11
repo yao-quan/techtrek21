@@ -128,3 +128,20 @@ app.post("/update-expense-budget", (req, res) => {
       return res.status(500).json(err.messsage);
     });
 });
+
+// POST Add Expense to Expense Table
+app.post("/add-expense", (req, res) => {
+  console.log(req.body);
+  const expenseInfo = req.body;
+
+  Expense.create(expenseInfo, (err, data) => {
+    if (err) {
+      console.log("Failed to add expense");
+      console.log(err.message);
+      return res.status(500).send(err.message);
+    } else {
+      console.log("Expense added successfully");
+      return res.status(201).json({ created: true });
+    }
+  });
+});
