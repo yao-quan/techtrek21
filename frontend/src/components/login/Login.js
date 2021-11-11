@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import mainLogo from'./newLogo.png';
 import secondaryLogo from'./newLogo2.png';
 import Grid from '@material-ui/core/Grid';
+import TextField from '@mui/material/TextField';
 
 function Login() {
   const [username, setUserName] = useState("");
@@ -62,27 +63,33 @@ function Login() {
 
           <form onSubmit = {handleSubmit}>
               <label>
-                <Typography variant="h7" component="div">
-                  Username
-                </Typography>
-                <input type="text" onChange={(e) => setUserName(e.target.value)} />
+                <TextField
+                  label={'margin="dense"'}
+                  required
+                  id="outlined-required"
+                  label="Username"
+                  defaultValue=""
+                  onChange={(e) => setUserName(e.target.value)}
+                />
+              </label>
+              <label htmlFor="">
+                <p></p>
+              </label>
+              <label>
+                <TextField
+                  id="filled-password-input"
+                  label="Password"
+                  type="password"
+                  autoComplete="current-password"
+                  variant="filled"
+                  onChange={(e) => setPassword(e.target.value)}
+                />   
               </label>
 
-              <label>
-                  <Typography variant="h7" component="div">
-                    Password
-                  </Typography>
-                  <input
-                    type="password"
-                    onChange={(e) => setPassword(e.target.value)}
-                  />              
-              </label>
-
-              <label>
                 <Button variant="text" href="#contained-buttons" type="submit" onClick={(e) => handleSubmit(e)}>
                   Submit
                 </Button>
-              </label>
+
               { errorMessage && <h5 className="error" style={{ color:"red"}}> {errorMessage} </h5> }
           </form>
         </CardContent>
@@ -90,7 +97,6 @@ function Login() {
       </Grid>
       </Grid>
     </div>
-
   );
   //Example: command to use to re-route on button click
   //window.location.replace("/Login");
