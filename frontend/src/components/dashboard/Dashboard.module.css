@@ -9,8 +9,38 @@
   height: 1000px;
 }
 
+.dashboardBody {
+  margin: auto;
+  background-color: rgb(249, 247, 247);
+}
+
 .mainPageHeading {
   margin-left: 20px;
+}
+
+.totalBudget {
+  width: 50%;
+  background: white;
+  margin-left: 50px;
+  justify-content: center !important;
+  font-family: Roboto;
+  font-style: normal;
+  font-size: 30px;
+  text-align: center;
+  padding-top: 50px;
+  border-radius: 16px !important;
+}
+
+.totalProjects {
+  width: 50%;
+  background: white;
+  justify-content: center !important;
+  font-family: Roboto;
+  font-style: normal;
+  font-size: 30px;
+  text-align: center;
+  padding-top: 50px;
+  border-radius: 16px !important;
 }
 
 .projects {
@@ -36,7 +66,7 @@
   background-repeat: no-repeat;
   background-position: 10px center;
   background-size: 40px 40px;
-  padding-top: 1.8vh !important;
+  padding-top: 1vh !important;
   height: 7vh !important;
   padding-left: 60px !important;
   border-radius: 16px !important;
@@ -44,6 +74,7 @@
   background-color: white;
   display: flex;
   justify-content: space-between;
+  margin-top: 10px;
 }
 
 .listGroupItem2:hover {
@@ -91,4 +122,8 @@
   justify-content: space-between;
   margin: 20px auto 0px;
   padding-top: 50px;
+}
+
+.dashboard {
+  background-color: rgb(249, 247, 247);
 }
