@@ -133,15 +133,64 @@ app.post("/update-expense-budget", (req, res) => {
 app.post("/add-expense", (req, res) => {
   console.log(req.body);
   const expenseInfo = req.body;
+  let expenseExist;
 
-  Expense.create(expenseInfo, (err, data) => {
-    if (err) {
-      console.log("Failed to add expense");
-      console.log(err.message);
-      return res.status(500).send(err.message);
-    } else {
-      console.log("Expense added successfully");
-      return res.status(201).json({ created: true });
-    }
-  });
+  Expense.findOne({ id: expenseInfo.id })
+    .then((expense) => {
+      if (expense) {
+        const err = new Error(
+          "This expense ID already exists, please use another one."
+        );
+        expenseExist = true;
+        return res.status(400).json(err.message);
+      }
+      expenseExist = false;
+      console.log("Expense does not exist, proceeding...");
+    })
+    .then(() => {
+      console.log(expenseExist);
+      if (!expenseExist) {
+        Expense.create(expenseInfo, (err, data) => {
+          if (err) {
+            console.log("failed to update");
+            return res.status(500).json({ updated: false });
+          } else {
+            console.log("expense updated");
+            return res.status(200).json({ updated: true });
+          }
+        });
+      }
+    })
+    .catch((err) => {
+      return res.status(500).json(err.message);
+    });
 });
+
+// Expense.findOne({ id })
+//   .then((expense) => {
+//     if (!expense) {
+//       const err = new Error("Expense could not be found.");
+//       return res.status(404).json("Expense could not be found.");
+//     }
+
+//     console.log("Expense found, proceeding...");
+//   })
+//   .then(() => {
+//     Expense.updateOne(
+//       { id: id },
+//       {
+//         $set: {
+//           amount: amount,
+//         },
+//       }
+//     )
+//       .then(() => {
+//         return res.status(200).json("Successfully updated expense budget");
+//       })
+//       .catch((err) => {
+//         return res.status(500).json(err.messsage);
+//       });
+//   })
+//   .catch((err) => {
+//     return res.status(500).json(err.message);
+//   });
