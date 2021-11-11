@@ -49,7 +49,7 @@ function Login({ setUsername, setPassword }) {
       </Grid>
       </Grid>
     </div>
-  )
+  );
   //Example: command to use to re-route on button click
   //window.location.replace("/Login");
 }

@@ -80,3 +80,128 @@ app.get("/projects", (req, res) => {
     }
   });
 });
+
+// GET All Expenses
+app.get("/expenses", (req, res) => {
+  Expense.find({}, (err, data) => {
+    if (err) {
+      return res.status(500).send(err.message);
+    } else {
+      if (data.length > 0) {
+        return res.status(200).json({ expenses: data });
+      } else {
+        return res.status(200).send("No Expenses");
+      }
+    }
+  }).catch((err) => {
+    return res.status(500).json(err.message);
+  });
+});
+
+// POST Update Expense
+app.post("/update-expense", (req, res) => {
+  const dbExpense = req.body;
+  let expenseExist;
+  console.log(req.body);
+
+  // Check if expense is registered in DB
+  Expense.findOne({ id: dbExpense.id })
+    .then((expense) => {
+      if (!expense) {
+        const err = new Error("Expense could not be found.");
+        console.log("Expense that you are trying to update cannot be found");
+        return res.status(404).json({ updated: false });
+      }
+
+      expenseExist = true;
+      console.log("Expense found, proceeding...");
+    })
+    .then(() => {
+      if (expenseExist) {
+        Expense.updateOne(
+          { id: dbExpense.id },
+          {
+            $set: {
+              project_id: dbExpense.project_id,
+              category_id: dbExpense.category_id,
+              name: dbExpense.name,
+              description: dbExpense.description,
+              amount: dbExpense.amount,
+              created_by: dbExpense.created_by,
+              updated_by: dbExpense.updated_by,
+            },
+          }
+        )
+          .then(() => {
+            console.log("Expense updated");
+            return res.status(200).json({ updated: true });
+          })
+          .catch((err) => {
+            return res.status(500).json({ updated: false });
+          });
+      }
+    })
+    .catch((err) => {
+      return res.status(500).json(err.message);
+    });
+});
+
+// POST Add Expense to Expense Table
+app.post("/add-expense", (req, res) => {
+  console.log(req.body);
+  const expenseInfo = req.body;
+  let expenseExist;
+
+  Expense.findOne({ id: expenseInfo.id })
+    .then((expense) => {
+      if (expense) {
+        const err = new Error(
+          "This expense ID already exists, please use another one."
+        );
+        expenseExist = true;
+        return res.status(400).json({ added: false });
+      }
+      expenseExist = false;
+      console.log("Expense does not exist, proceeding...");
+    })
+    .then(() => {
+      console.log(expenseExist);
+      if (!expenseExist) {
+        Expense.create(expenseInfo, (err, data) => {
+          if (err) {
+            console.log("failed to added");
+            return res.status(500).json({ added: false });
+          } else {
+            console.log("expense added");
+            return res.status(200).json({ added: true });
+          }
+        });
+      }
+    })
+    .catch((err) => {
+      return res.status(500).json(err.message);
+    });
+});
+
+// POST Remove Expense
+app.delete("/remove-expense", (req, res) => {
+  console.log(req.body);
+  const expenseInfo = req.body;
+
+  Expense.findOneAndRemove({ id: expenseInfo.id })
+    .then((expense) => {
+      if (!expense) {
+        const err = new Error(
+          "The expense that you are trying to remove does not exist"
+        );
+        console.log("Expense does not exist");
+        return res.status(404).json({ removed: false });
+      } else {
+        console.log("Expense deleted");
+        return res.status(200).json({ removed: true });
+      }
+    })
+    .catch((err) => {
+      return res.status(500).json(err.message);
+    });
+});
