@@ -1,3 +1,4 @@
+import { Timestamp } from "bson";
 import mongoose from "mongoose";
 
 const ExpenseSchema = new mongoose.Schema(
@@ -26,7 +27,15 @@ const ExpenseSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    created_at: {
+      type: String,
+      required: true,
+    },
     created_by: {
+      type: String,
+      required: true,
+    },
+    updated_at: {
       type: String,
       required: true,
     },
