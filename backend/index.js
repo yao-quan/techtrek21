@@ -80,3 +80,37 @@ app.get("/projects", (req, res) => {
     }
   });
 });
+
+// POST Update Expense-budget
+app.post("/update-expense-budget", (req, res) => {
+  const { id, amount } = req.body;
+
+  // Check if expense is registered in DB
+  Expense.findOne({ id })
+    .then((expense) => {
+      if (!expense) {
+        const err = new Error("Expense could not be found.");
+        return res.status(404).json("Expense could not be found.");
+      }
+
+      console.log("Expense found, proceeding...");
+    })
+    .catch((err) => {
+      return res.status(500).json(err.message);
+    });
+
+  Expense.updateOne(
+    { id: id },
+    {
+      $set: {
+        amount: amount,
+      },
+    }
+  )
+    .then(() => {
+      return res.status(200).jsonp("Successfully updated expense budget");
+    })
+    .catch((err) => {
+      return res.status(500).json(err.messsage);
+    });
+});
