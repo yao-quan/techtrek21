@@ -7,14 +7,14 @@ import { User, Project, Category, Expense } from "./models/index.js";
 const app = express();
 const port = process.env.PORT || 8001; // Using 8001 because rarely used
 
+// Middleware
+app.use(express.json());
+app.use(Cors()); // Enables CORS
+
 // DB Config
 const connection_url =
   "mongodb+srv://techtrek21:techtrek21@techtrek-21.hjfbd.mongodb.net/dbs-techtrek-21?retryWrites=true&w=majority";
 mongoose.connect(connection_url);
-
-// Middleware
-app.use(express.json());
-app.use(Cors()); // Enables CORS
 
 // API Listener
 app.listen(port, () => {
