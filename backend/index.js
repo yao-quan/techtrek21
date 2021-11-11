@@ -234,7 +234,7 @@ app.get("/category", (req, res) => {
   var dbCat = req.body;
   let categoryExist;
 
-  Category.findOne({ id: dbCat.id })
+  Category.findOne({ id: dbCat.category_id })
     .then((category) => {
       if (!category) {
         const err = new Error("This category ID does not exist");
@@ -247,14 +247,14 @@ app.get("/category", (req, res) => {
     })
     .then(() => {
       if (categoryExist) {
-        Expense.find({ category_id: dbCat.id }).then((expense) => {
+        Expense.find({ category_id: dbCat.category_id }).then((expense) => {
           if (!expense) {
+            const err = new Error("No expenses with this category ID");
             console.log("No expense with this Category ID");
             return res.status(401).json({ expenses: null });
-          } else {
-            console.log("Found expense with this category");
-            return res.status(201).json({ expenses: expense });
           }
+          console.log("Found expense with this category");
+          return res.status(201).json({ expenses: expense });
         });
       }
     })
