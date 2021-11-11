@@ -26,12 +26,14 @@ function App() {
     //   <Navbar users = {users}/>
     // </div>
     <Routes>
-      <Route
-        path="/"
-        element={<Login setUserName={setUsername} setPassword={setPassword} />}
-      ></Route>
+      <Route path="/" element={
+        <Login
+          setUserName = {setUsername}
+          setPassword = {setPassword}
+        />
+      }></Route>
       <Route path="/dashboard" element={<Dashboard />}></Route>
-      <Route path="/dashboard/expenses" element={<Expense />}></Route> */}
+      <Route path="/dashboard/expenses" element={<Expense />}></Route>
     </Routes>
   );
 }
