@@ -5,8 +5,21 @@
   margin-left: auto;
   width: 1000px;
   justify-content: center !important;
-  background-color: lightgray;
+  background-color: rgb(249, 247, 247);
   height: 1000px;
+}
+
+.mainPageHeading {
+  margin-left: 20px;
+}
+
+.projects {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 22px;
+  margin: 0px 10px 10px 10px;
+  padding-top: 10px;
 }
 
 .projectTitle {
@@ -29,6 +42,8 @@
   border-radius: 16px !important;
   vertical-align: center;
   background-color: white;
+  display: flex;
+  justify-content: space-between;
 }
 
 .listGroupItem2:hover {
@@ -49,21 +64,23 @@
   font-size: 22px;
   line-height: 20px;
   margin-bottom: 2vh;
+  margin-top: 14px;
 }
 .projectDescription {
   font-family: Roboto;
   font-style: normal;
   font-weight: normal;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 14px !important;
   padding-top: 2px !important;
 }
 
 .projectBudget {
   float: right;
-  margin-right: 20px;
-  margin-top: 0.5vh;
+  margin-right: 50px;
+  /* margin-top: ; */
   font-weight: bold;
+  margin-top: 17px;
 }
 
 .dashboardHead {
