@@ -3,15 +3,15 @@ import mongoose from "mongoose";
 const ExpenseSchema = new mongoose.Schema(
   {
     id: {
-      type: String,
+      type: Number,
       required: true,
     },
     project_id: {
-      type: String,
+      type: Number,
       required: true,
     },
     category_id: {
-      type: String,
+      type: Number,
       required: true,
     },
     name: {

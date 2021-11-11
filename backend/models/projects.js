@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 
 const ProjectSchema = new mongoose.Schema({
   id: {
-    type: String,
+    type: Number,
     required: true,
   },
   user_id: {
-    type: String,
+    type: Number,
     required: true,
   },
   name: {
