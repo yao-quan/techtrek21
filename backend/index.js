@@ -95,37 +95,45 @@ app.get("/expenses", (req, res) => {
     }
   });
 });
+
 // POST Update Expense-budget
 app.post("/update-expense-budget", (req, res) => {
   const { id, amount } = req.body;
+  let expenseExist;
 
   // Check if expense is registered in DB
   Expense.findOne({ id })
     .then((expense) => {
       if (!expense) {
         const err = new Error("Expense could not be found.");
-        return res.status(404).json("Expense could not be found.");
+        console.log("Expense that you are trying to update cannot be found");
+        return res.status(404).json({ updated: false });
       }
 
+      expenseExist = true;
       console.log("Expense found, proceeding...");
+    })
+    .then(() => {
+      if (expenseExist) {
+        Expense.updateOne(
+          { id: id },
+          {
+            $set: {
+              amount: amount,
+            },
+          }
+        )
+          .then(() => {
+            console.log("Expense updated");
+            return res.status(200).json({ updated: true });
+          })
+          .catch((err) => {
+            return res.status(500).json(err.messsage);
+          });
+      }
     })
     .catch((err) => {
       return res.status(500).json(err.message);
-    });
-
-  Expense.updateOne(
-    { id: id },
-    {
-      $set: {
-        amount: amount,
-      },
-    }
-  )
-    .then(() => {
-      return res.status(200).jsonp("Successfully updated expense budget");
-    })
-    .catch((err) => {
-      return res.status(500).json(err.messsage);
     });
 });
 
@@ -142,7 +150,7 @@ app.post("/add-expense", (req, res) => {
           "This expense ID already exists, please use another one."
         );
         expenseExist = true;
-        return res.status(400).json(err.message);
+        return res.status(400).json({ added: false });
       }
       expenseExist = false;
       console.log("Expense does not exist, proceeding...");
@@ -153,10 +161,10 @@ app.post("/add-expense", (req, res) => {
         Expense.create(expenseInfo, (err, data) => {
           if (err) {
             console.log("failed to update");
-            return res.status(500).json({ updated: false });
+            return res.status(500).json({ added: false });
           } else {
             console.log("expense updated");
-            return res.status(200).json({ updated: true });
+            return res.status(200).json({ added: true });
           }
         });
       }
