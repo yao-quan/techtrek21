@@ -38,9 +38,9 @@ function ExpenseList(props) {
 		);
 		setfilteredExpenses(searchResults);
 	};
-	const listUpdate = (expense) => {
+	const listUpdate = (id) => {
 		const newList = filteredExpenses.filter((filteredExpense) =>
-			filteredExpense.id === expense.id
+			filteredExpense.id === id
 		);
 		setfilteredExpenses(newList)
 	}

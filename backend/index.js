@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import Cors from "cors";
 import { User, Project, Category, Expense } from "./models/index.js";
+import products from "../../DBS-Hackathon-Prep/ecommerse/backend/model/products.js";
 
 // App Config
 const app = express();
@@ -83,19 +84,41 @@ app.get("/projects", (req, res) => {
 
 // GET All Expenses
 app.get("/expenses", (req, res) => {
-  Expense.find({}, (err, data) => {
-    if (err) {
-      return res.status(500).send(err.message);
-    } else {
-      if (data.length > 0) {
-        return res.status(200).json({ expenses: data });
-      } else {
-        return res.status(200).send("No Expenses");
+  const dbExpense = req.body;
+
+  Expense.find({ dbExpense })
+    .then((expense) => {
+      if (!expense) {
+        const err = new Error("No expenses in DB");
+        console.log("no expenses in DB");
+
+        return res.status(401).json(err.message);
       }
-    }
-  }).catch((err) => {
-    return res.status(500).json(err.message);
-  });
+      console.log("has expenses in DB");
+      return res.status(200).json({ expenses: expense });
+    })
+    .catch((err) => {
+      return res.status(500).json(err.message);
+    });
+});
+
+// GET Expenses By Project
+app.get("/expenses-project", (req, res) => {
+  const dbExpense = req.body;
+
+  Expense.find({ project_id: dbExpense.project_id })
+    .then((expense) => {
+      if (!expense) {
+        const err = new Error("No expenses in DB");
+        console.log("no expenses in DB");
+
+        return res.status(401).json(err.message);
+      }
+      return res.status(200).json({ expenses: expense });
+    })
+    .catch((err) => {
+      return res.status(500).json(err.message);
+    });
 });
 
 // POST Update Expense
@@ -170,6 +193,7 @@ app.post("/add-expense", (req, res) => {
         Expense.create(expenseInfo, (err, data) => {
           if (err) {
             console.log("failed to added");
+            console.log(err)
             return res.status(500).json({ added: false });
           } else {
             console.log("expense added");
@@ -199,6 +223,40 @@ app.delete("/remove-expense", (req, res) => {
       } else {
         console.log("Expense deleted");
         return res.status(200).json({ removed: true });
+      }
+    })
+    .catch((err) => {
+      return res.status(500).json(err.message);
+    });
+});
+
+// // GET Expenses by Category (Filter)
+app.get("/category", (req, res) => {
+  var dbCat = req.body;
+  let categoryExist;
+
+  Category.findOne({ id: dbCat.category_id })
+    .then((category) => {
+      if (!category) {
+        const err = new Error("This category ID does not exist");
+        console.log("Category ID does not exist");
+        return res.status(401).json(err.message);
+      }
+
+      categoryExist = true;
+      console.log("Category ID exist, proceeding...");
+    })
+    .then(() => {
+      if (categoryExist) {
+        Expense.find({ category_id: dbCat.category_id }).then((expense) => {
+          if (!expense) {
+            const err = new Error("No expenses with this category ID");
+            console.log("No expense with this Category ID");
+            return res.status(401).json({ expenses: null });
+          }
+          console.log("Found expense with this category");
+          return res.status(201).json({ expenses: expense });
+        });
       }
     })
     .catch((err) => {

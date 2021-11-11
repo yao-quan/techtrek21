@@ -52,10 +52,10 @@ function Login() {
         direction="column"
         alignItems="center"
         justifyContent="center"
-        style={{ minHeight: '100vh',minWidth:"100%" }}
+        style={{ minHeight: '100vh',minWidth:"80%" }}
       >
-      <Grid item xs={3}>
-      <Card >
+      <Grid item xs={2}>
+      <Card sx={{ minWidth: 275 }}>
         <CardContent>
           <Typography sx={{ fontSize: 20 }} color="text.primary" gutterBottom>
             Budget Tracking App
