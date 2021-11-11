@@ -106,7 +106,7 @@ app.get("/expenses", (req, res) => {
 app.get("/expenses-project", (req, res) => {
   const dbExpense = req.body;
 
-  Expense.find({ project_id: dbExpense.proj_id })
+  Expense.find({ project_id: dbExpense.project_id })
     .then((expense) => {
       if (!expense) {
         const err = new Error("No expenses in DB");
@@ -229,52 +229,36 @@ app.delete("/remove-expense", (req, res) => {
     });
 });
 
-// GET Expenses by Project
-// app.get("/expenses");
-
-//WIP
-
 // // GET Expenses by Category (Filter)
-// app.get("/category", (req, res) => {
-//   var dbCat = req.body;
-//   let categoryExist;
+app.get("/category", (req, res) => {
+  var dbCat = req.body;
+  let categoryExist;
 
-//   Category.findOne({ id: dbCat.id })
-//     .then((category) => {
-//       if (!category) {
-//         const err = new Error("This category ID does not exist");
-//         console.log("Category ID does not exist");
-//         return res.status(401).json(err.message);
-//       }
+  Category.findOne({ id: dbCat.id })
+    .then((category) => {
+      if (!category) {
+        const err = new Error("This category ID does not exist");
+        console.log("Category ID does not exist");
+        return res.status(401).json(err.message);
+      }
 
-//       categoryExist = true;
-//       console.log("Category ID exist, proceeding...");
-//     })
-//     .then(() => {
-//       if (categoryExist) {
-//         Expense.find({ category_id: dbCat.id }).then((expense) => {
-//           if (!expense) {
-//             console.log("No expense with this Category ID");
-//             return res.status(401).json({ expenses: null });
-//           } else {
-//             console.log("Found expense with this category");
-//             return res.status(201).json({ expenses: expense });
-//           }
-//         });
-//       }
-//     })
-//     .catch((err) => {
-//       return res.status(500).json(err.message);
-//     });
-
-//   // Category.findOne({ id: dbCat.id }, (err, data) => {
-
-//   //   Expense.find({ id: dbCat.id }, (err, expenses) => {
-//   //     if (err) {
-//   //       return res.status(500).json(err);
-//   //     } else {
-//   //       return res.status(201).json({ expenses: expenses });
-//   //     }
-//   //   });
-//   // });
-// });
+      categoryExist = true;
+      console.log("Category ID exist, proceeding...");
+    })
+    .then(() => {
+      if (categoryExist) {
+        Expense.find({ category_id: dbCat.id }).then((expense) => {
+          if (!expense) {
+            console.log("No expense with this Category ID");
+            return res.status(401).json({ expenses: null });
+          } else {
+            console.log("Found expense with this category");
+            return res.status(201).json({ expenses: expense });
+          }
+        });
+      }
+    })
+    .catch((err) => {
+      return res.status(500).json(err.message);
+    });
+});
