@@ -166,31 +166,21 @@ app.post("/add-expense", (req, res) => {
     });
 });
 
-// Expense.findOne({ id })
-//   .then((expense) => {
-//     if (!expense) {
-//       const err = new Error("Expense could not be found.");
-//       return res.status(404).json("Expense could not be found.");
-//     }
+// POST Remove Expense
+app.delete("/remove-expense", (req, res) => {
+  console.log(req.body);
+  const expenseInfo = req.body;
 
-//     console.log("Expense found, proceeding...");
-//   })
-//   .then(() => {
-//     Expense.updateOne(
-//       { id: id },
-//       {
-//         $set: {
-//           amount: amount,
-//         },
-//       }
-//     )
-//       .then(() => {
-//         return res.status(200).json("Successfully updated expense budget");
-//       })
-//       .catch((err) => {
-//         return res.status(500).json(err.messsage);
-//       });
-//   })
-//   .catch((err) => {
-//     return res.status(500).json(err.message);
-//   });
+  Expense.findOneAndRemove({ id: expenseInfo.id }).then((expense) => {
+    if (!expense) {
+      const err = new Error(
+        "The expense that you are trying to remove does not exist"
+      );
+      console.log("Expense does not exist");
+      return res.status(404).json(err.message);
+    } else {
+      console.log("Expense deleted");
+      return res.status(200).json({ removed: true });
+    }
+  });
+});
