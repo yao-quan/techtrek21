@@ -29,8 +29,7 @@ function Login() {
       .then(function (response) {
         if (response.status === 200) {
           console.log("login successful");
-
-          //   window.location.replace("/dashboard");
+          window.location.replace("/dashboard");
         } else {
           console.log("Invalid username and password combination");
           setErrorMessage("Invalid username and password combination")
