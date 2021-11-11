@@ -1,5 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import mainLogo from'./newLogo.png';
+import Grid from '@material-ui/core/Grid';
 
 function Login() {
   const [username, setUserName] = useState("");
@@ -32,27 +38,53 @@ function Login() {
       });
   }
   return (
-    <div className="login-wrapper">
-      <h1>Landing Page - Login</h1>
-      <form>
-        <label>
-          <p>Username</p>
-          <input type="text" onChange={(e) => setUserName(e.target.value)} />
-        </label>
-        <label>
-          <p>Password</p>
-          <input
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </label>
-        <div>
-          <button type="submit" onClick={(e) => handleSubmit(e)}>
-            Submit
-          </button>
-        </div>
-      </form>
+    <div className="login-wrapper" style={{color: "red"}}>
+      <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        style={{ minHeight: '100vh' }}
+      >
+      <Grid item xs={3}>
+      <Card sx={{ width: 'auto'} }>
+        <CardContent>
+            <img  src={mainLogo} className="photo" alt="fireSpot" 
+            style={{
+              height: "90px",
+              width: "90px"}}/>
+          
+          <form onSubmit = {handleSubmit}>
+              <label>
+                <Typography variant="h7" component="div">
+                  Username
+                </Typography>
+                <input type="text" onChange={(e) => setUserName(e.target.value)} />
+              </label>
+
+              <label>
+                  <Typography variant="h7" component="div">
+                    Password
+                  </Typography>
+                  <input
+                    type="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                  />              
+              </label>
+
+              <label>
+                <Button variant="text" href="#contained-buttons" type="submit" onClick={(e) => handleSubmit(e)}>
+                  Submit
+                </Button>
+              </label>
+          </form>
+        </CardContent>
+      </Card>
+      </Grid>
+      </Grid>
     </div>
+
   );
   //Example: command to use to re-route on button click
   //window.location.replace("/Login");
