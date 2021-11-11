@@ -65,3 +65,18 @@ app.post("/login", (req, res) => {
       return res.status(500).json(err.message);
     });
 });
+
+// GET All Projects
+app.get("/projects", (req, res) => {
+  Project.find({}, (err, data) => {
+    if (err) {
+      return res.status(500).send(err.message);
+    } else {
+      if (data.length > 0) {
+        return res.status(200).json({ data });
+      } else {
+        return res.status(200).send("No Projects");
+      }
+    }
+  });
+});
