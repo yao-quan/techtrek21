@@ -193,6 +193,7 @@ app.post("/add-expense", (req, res) => {
         Expense.create(expenseInfo, (err, data) => {
           if (err) {
             console.log("failed to added");
+            console.log(err)
             return res.status(500).json({ added: false });
           } else {
             console.log("expense added");
