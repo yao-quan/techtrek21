@@ -11,6 +11,7 @@ import Grid from '@material-ui/core/Grid';
 function Login() {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   function handleSubmit(event) {
     console.log("handlesubmit");
@@ -32,10 +33,12 @@ function Login() {
           //   window.location.replace("/dashboard");
         } else {
           console.log("Invalid username and password combination");
+          setErrorMessage("Invalid username and password combination")
         }
       })
       .catch(function (error) {
         console.log(error);
+        setErrorMessage("Connection Error")
       });
   }
   return (
@@ -54,9 +57,9 @@ function Login() {
       <Grid item xs={3}>
       <Card >
         <CardContent>
-            <Typography sx={{ fontSize: 20 }} color="text.primary" gutterBottom>
-              Budget Tracking App
-            </Typography>
+          <Typography sx={{ fontSize: 20 }} color="text.primary" gutterBottom>
+            Budget Tracking App
+          </Typography>
 
           <form onSubmit = {handleSubmit}>
               <label>
@@ -81,6 +84,7 @@ function Login() {
                   Submit
                 </Button>
               </label>
+              { errorMessage && <h5 className="error" style={{ color:"red"}}> {errorMessage} </h5> }
           </form>
         </CardContent>
       </Card>
