@@ -93,16 +93,19 @@ app.get("/expenses", (req, res) => {
         return res.status(200).send("No Expenses");
       }
     }
+  }).catch((err) => {
+    return res.status(500).json(err.message);
   });
 });
 
-// POST Update Expense-budget
-app.post("/update-expense-budget", (req, res) => {
-  const { id, amount } = req.body;
+// POST Update Expense
+app.post("/update-expense", (req, res) => {
+  const dbExpense = req.body;
   let expenseExist;
+  console.log(req.body);
 
   // Check if expense is registered in DB
-  Expense.findOne({ id })
+  Expense.findOne({ id: dbExpense.id })
     .then((expense) => {
       if (!expense) {
         const err = new Error("Expense could not be found.");
@@ -116,10 +119,16 @@ app.post("/update-expense-budget", (req, res) => {
     .then(() => {
       if (expenseExist) {
         Expense.updateOne(
-          { id: id },
+          { id: dbExpense.id },
           {
             $set: {
-              amount: amount,
+              project_id: dbExpense.project_id,
+              category_id: dbExpense.category_id,
+              name: dbExpense.name,
+              description: dbExpense.description,
+              amount: dbExpense.amount,
+              created_by: dbExpense.created_by,
+              updated_by: dbExpense.updated_by,
             },
           }
         )
@@ -128,7 +137,7 @@ app.post("/update-expense-budget", (req, res) => {
             return res.status(200).json({ updated: true });
           })
           .catch((err) => {
-            return res.status(500).json(err.messsage);
+            return res.status(500).json({ updated: false });
           });
       }
     })
@@ -160,10 +169,10 @@ app.post("/add-expense", (req, res) => {
       if (!expenseExist) {
         Expense.create(expenseInfo, (err, data) => {
           if (err) {
-            console.log("failed to update");
+            console.log("failed to added");
             return res.status(500).json({ added: false });
           } else {
-            console.log("expense updated");
+            console.log("expense added");
             return res.status(200).json({ added: true });
           }
         });
@@ -179,16 +188,20 @@ app.delete("/remove-expense", (req, res) => {
   console.log(req.body);
   const expenseInfo = req.body;
 
-  Expense.findOneAndRemove({ id: expenseInfo.id }).then((expense) => {
-    if (!expense) {
-      const err = new Error(
-        "The expense that you are trying to remove does not exist"
-      );
-      console.log("Expense does not exist");
-      return res.status(404).json(err.message);
-    } else {
-      console.log("Expense deleted");
-      return res.status(200).json({ removed: true });
-    }
-  });
+  Expense.findOneAndRemove({ id: expenseInfo.id })
+    .then((expense) => {
+      if (!expense) {
+        const err = new Error(
+          "The expense that you are trying to remove does not exist"
+        );
+        console.log("Expense does not exist");
+        return res.status(404).json({ removed: false });
+      } else {
+        console.log("Expense deleted");
+        return res.status(200).json({ removed: true });
+      }
+    })
+    .catch((err) => {
+      return res.status(500).json(err.message);
+    });
 });
