@@ -26,15 +26,42 @@ app.get("/", (req, res) => {
   res.status(200).send("Endpoint connected");
 });
 
-// const user = `yao_quan`
-// const password = `4FXYF!m8AhA`
-// const db = `react-test`
+// POST User Login (Username, Password)
+app.post("/login", (req, res) => {
+  const { username, password } = req.body;
 
-// mongoose.connect(`mongodb+srv://${user}:${password}@react-test.cxmrc.mongodb.net/${db}?retryWrites=true&w=majority`)
-// const connection = mongoose.connection
+  let userInfo;
 
-// app.use(function(req, res, next) {
-//     res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//     next();
-// });
+  User.findOne({ username: username })
+    .then((user) => {
+      if (!user) {
+        const error = new Error("This username is not registered.");
+        console.log("Wrong username");
+
+        return res
+          .status(401)
+          .json("Invalid username and password combination.");
+      }
+
+      userInfo = user;
+      console.log("Username exists, proceeding...");
+      return password === user.password;
+    })
+    .then((isEqual) => {
+      if (userInfo) {
+        if (!isEqual) {
+          const error = new Error("Wrong password!");
+          console.log("Wrong password");
+          return res.status(401).json({ verified: false, user_id: null });
+        } else {
+          console.log("Successful login");
+          return res
+            .status(200)
+            .json({ verified: true, user_id: userInfo.id.toString() });
+        }
+      }
+    })
+    .catch((err) => {
+      return res.status(500).json(err.message);
+    });
+});
