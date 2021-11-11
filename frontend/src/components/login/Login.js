@@ -5,6 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import mainLogo from'./newLogo.png';
+import secondaryLogo from'./newLogo2.png';
 import Grid from '@material-ui/core/Grid';
 
 function Login() {
@@ -38,23 +39,25 @@ function Login() {
       });
   }
   return (
-    <div className="login-wrapper" style={{color: "red"}}>
+    <div className="login-wrapper" style={{
+      backgroundImage: `url(${mainLogo})`,
+      backgroundRepeat:"no-repeat",
+      backgroundSize:"100% 100%"}}>
       <Grid
         container
         spacing={0}
         direction="column"
         alignItems="center"
         justifyContent="center"
-        style={{ minHeight: '100vh' }}
+        style={{ minHeight: '100vh',minWidth:"100%" }}
       >
       <Grid item xs={3}>
       <Card >
         <CardContent>
-            <img  src={mainLogo} className="photo" alt="fireSpot" 
-            style={{
-              height: "15vh",
-              width: "19vh"}}/>
-          
+            <Typography sx={{ fontSize: 20 }} color="text.primary" gutterBottom>
+              Budget Tracking App
+            </Typography>
+
           <form onSubmit = {handleSubmit}>
               <label>
                 <Typography variant="h7" component="div">
