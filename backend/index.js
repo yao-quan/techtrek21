@@ -102,6 +102,25 @@ app.get("/expenses", (req, res) => {
     });
 });
 
+// GET Expenses By Project
+app.get("/expenses-project", (req, res) => {
+  const dbExpense = req.body;
+
+  Expense.find({ project_id: dbExpense.proj_id })
+    .then((expense) => {
+      if (!expense) {
+        const err = new Error("No expenses in DB");
+        console.log("no expenses in DB");
+
+        return res.status(401).json(err.message);
+      }
+      return res.status(200).json({ expenses: expense });
+    })
+    .catch((err) => {
+      return res.status(500).json(err.message);
+    });
+});
+
 // POST Update Expense
 app.post("/update-expense", (req, res) => {
   const dbExpense = req.body;
