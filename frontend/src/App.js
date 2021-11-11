@@ -1,9 +1,12 @@
 import "./App.css";
 import Navbar from "./components/navbar/Navbar";
 import React, { useState, useEffect } from "react";
+import { Route, Routes } from "react-router-dom";
 import axios from "axios";
 
-import { Login, Dashboard, Expenses } from "./components";
+import Expense from "./components/expense/Expense";
+import Login from "./components/login/Login";
+import Dashboard from "./components/dashboard/Dashboard";
 
 function App() {
   const [users, setUsers] = useState({});
@@ -23,7 +26,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Login />}></Route>
       <Route path="/dashboard" element={<Dashboard />}></Route>
-      <Route path="/dashboard/expenses" element={<Expenses />}></Route>
+      <Route path="/dashboard/expenses" element={<Expense />}></Route>
     </Routes>
   );
 }
